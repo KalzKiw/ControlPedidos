@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formulario de Pedido</title>
+  <style>
+    /* Estilos globales */
+    body {
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(135deg, #2c2c2c, #000000); /* Fondo degradado gris oscuro a negro */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      color: #333333; /* Texto gris oscuro */
+      overflow: hidden;
+    }
+
+    /* Formas decorativas */
+    .shape {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      filter: blur(80px);
+      animation: float 6s ease-in-out infinite;
+    }
+
+    .shape:nth-child(1) {
+      width: 300px;
+      height: 300px;
+      top: 10%;
+      left: 20%;
+      animation-delay: 0s;
+    }
+
+    .shape:nth-child(2) {
+      width: 400px;
+      height: 400px;
+      bottom: 15%;
+      right: 15%;
+      animation-delay: 2s;
+    }
+
+    .shape:nth-child(3) {
+      width: 200px;
+      height: 200px;
+      top: 50%;
+      left: 70%;
+      animation-delay: 4s;
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-20px);
+      }
+    }
+
+    h1 {
+      color: hsl(0, 9%, 23%);
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 36px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+    }
+
+    /* Contenedor del formulario con efecto cristal */
+    .form-container {
+      background: rgba(255, 255, 255, 0.1); /* Fondo translúcido */
+      backdrop-filter: blur(10px); /* Efecto blur */
+      -webkit-backdrop-filter: blur(10px); /* Efecto blur para Safari */
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.3); /* Borde translúcido */
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+      padding: 40px;
+      width: 100%;
+      max-width: 500px;
+      box-sizing: border-box;
+    }
+
+    /* Etiquetas */
+    label {
+      font-size: 16px;
+      color: #333333; /* Texto gris oscuro */
+      font-weight: 600;
+      margin-bottom: 10px;
+      display: block;
+    }
+
+    /* Input y Select */
+    input[type="text"], input[type="date"], select {
+      padding: 14px;
+      margin-top: 10px;
+      width: 100%;
+      border-radius: 10px;
+      border: 1px solid rgba(0, 0, 0, 0.3); /* Borde gris translúcido */
+      background-color: rgba(255, 255, 255, 0.8); /* Fondo claro translúcido */
+      color: #333333; /* Texto gris oscuro */
+      box-sizing: border-box;
+      font-size: 16px;
+      transition: all 0.3s ease;
+    }
+
+    input[type="text"]:focus, input[type="date"]:focus, select:focus {
+      border-color: #666666; /* Borde gris más oscuro */
+      background-color: rgba(255, 255, 255, 0.9); /* Fondo más claro */
+      outline: none;
+      box-shadow: 0 0 8px rgba(0, 0, 0, 0.3); /* Resplandor gris */
+    }
+
+    /* Botón de enviar */
+    input[type="submit"] {
+      background: linear-gradient(135deg, #cccccc, #999999); /* Fondo degradado gris claro */
+      color: #000000; /* Texto negro */
+      padding: 16px 24px;
+      border-radius: 30px;
+      border: none;
+      margin-top: 20px;
+      width: 100%;
+      cursor: pointer;
+      font-size: 18px;
+      font-weight: 700;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.3);
+    }
+
+    input[type="submit"]:hover {
+      background: linear-gradient(135deg, #999999, #cccccc); /* Fondo invertido */
+      transform: translateY(-3px);
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.4);
+    }
+
+    input[type="submit"]:active {
+      transform: translateY(0);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Contenedor de incidencia */
+    .incidencia-container {
+      display: none;
+      margin-top: 20px;
+      padding: 15px;
+      border: 1px rgba(0, 0, 0, 0.5); /* Borde blanco translúcido */
+      border-radius: 10px;
+      background-color: rgba(47, 26, 26, 0.6); /* Fondo oscuro translúcido */
+    }
+
+    .incidencia-container select {
+      background-color: rgba(255, 255, 255, 0.6); /* Fondo oscuro translúcido */
+      border: 1px solid rgba(255, 255, 255, 0.5); /* Borde blanco translúcido */
+      font-size: 16px;
+      padding: 12px;
+      width: 100%;
+      border-radius: 10px;
+      transition: all 0.3s ease;
+      color: #332323; /* Texto blanco */
+    }
+
+    .incidencia-container select:focus {
+      border-color: #ffffff; /* Borde blanco */
+      background-color: rgba(255, 255, 255, 0.2); /* Fondo más claro */
+    }
+
+    /* Estilo para el checkbox */
+    input[type="checkbox"] {
+      margin-top: 10px;
+      transform: scale(1.5);
+      cursor: pointer;
+    }
+
+    /* Contenedor general del formulario */
+    .form-container {
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      box-sizing: border-box;
+      position: relative;
+      background-color: rgba(255, 255, 255, 0.95);
+      border-radius: 30px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="form-container">
+    <h1>Formulario de Pedido</h1>
+    <form onsubmit="event.preventDefault(); enviarFormulario();">
+      <label for="pedido">Pedido:</label>
+      <input type="text" id="pedido" name="pedido" required>
+
+      <label for="fechaEntrega">Fecha de Entrega:</label>
+      <input type="date" id="fechaEntrega" name="fechaEntrega" required>
+
+      <label for="fechaRuta">Fecha de Ruta:</label>
+      <input type="date" id="fechaRuta" name="fechaRuta">
+
+      <label for="incidencia">¿Incidencia?</label>
+      <input type="checkbox" id="incidencia" name="incidencia" onclick="toggleIncidencia()">
+
+      <div class="incidencia-container" id="incidenciaContainer">
+        <label for="tipoIncidencia">Tipo de Incidencia:</label>
+        <select id="tipoIncidencia" name="tipoIncidencia">
+          <option value="DC">DC</option>
+          <option value="MONTAJE">MONTAJE</option>
+        </select>
+      </div>
+
+      <input type="submit" value="Enviar Pedido">
+    </form>
+  </div>
+
+  <script>
+    // Función para mostrar u ocultar el campo de tipo de incidencia
+    function toggleIncidencia() {
+      const incidenciaContainer = document.getElementById('incidenciaContainer');
+      const incidenciaCheckbox = document.getElementById('incidencia');
+      
+      if (incidenciaCheckbox.checked) {
+        incidenciaContainer.style.display = 'block';
+      } else {
+        incidenciaContainer.style.display = 'none';
+      }
+    }
+
+    // Función para enviar el formulario
+    function enviarFormulario() {
+      const pedido = document.getElementById('pedido').value;
+      const fechaEntrega = document.getElementById('fechaEntrega').value;
+      const fechaRuta = document.getElementById('fechaRuta').value;
+      const incidencia = document.getElementById('incidencia').checked;
+      const tipoIncidencia = document.getElementById('tipoIncidencia').value;
+
+      const data = {
+        pedido,
+        fechaEntrega,
+        fechaRuta,
+        incidencia,
+        tipoIncidencia
+      };
+
+      google.script.run.withSuccessHandler(function(response) {
+        alert(response);
+        document.getElementById('pedido').value = '';
+        document.getElementById('fechaEntrega').value = '';
+        document.getElementById('fechaRuta').value = '';
+        document.getElementById('incidencia').checked = false;
+        document.getElementById('tipoIncidencia').value = '';
+        document.getElementById('incidenciaContainer').style.display = 'none'; // Ocultar el desplegable
+      }).guardarPedido(data);
+    }
+
+    function guardarPedido(data) {
+      try {
+        const hoja = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET_NAME);
+
+        Logger.log("Datos recibidos:", data);
+
+        const fechaEntrega = data.fechaEntrega || "";
+        const fechaRuta = data.fechaRuta || "";
+
+        const fechaEntregaObj = new Date(fechaEntrega);
+        const fechaRutaObj = new Date(fechaRuta);
+
+        if (isNaN(fechaEntregaObj.getTime())) {
+          Logger.log("La fecha de entrega no es válida.");
+          return HtmlService.createHtmlOutput("Error: La fecha de entrega no es válida.");
+        }
+
+        let estado = "Pendiente";
+        let diferenciaDias = "";
+
+        if (fechaRuta) {
+          const diferencia = fechaRutaObj - fechaEntregaObj;
+          diferenciaDias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
+
+          if (diferencia / (1000 * 60 * 60) >= 15 && diferencia / (1000 * 60 * 60) <= 20) {
+            estado = "Entregado";
+          } else if (diferencia / (1000 * 60 * 60) > 20) {
+            estado = "En Ruta";
+          }
+        }
+
+        const incidenciaTexto = data.incidencia ? "Sí" : "No";
+        const tipoIncidenciaTexto = data.incidencia && data.tipoIncidencia ? data.tipoIncidencia : "NO";
+
+        hoja.appendRow([
+          data.pedido || "",
+          formatearFecha(fechaEntregaObj),
+          fechaRuta ? formatearFecha(fechaRutaObj) : "",
+          diferenciaDias || "",
+          estado,
+          incidenciaTexto,
+          tipoIncidenciaTexto
+        ]);
+
+        Logger.log("Pedido guardado correctamente.");
+        return HtmlService.createHtmlOutput("¡Pedido guardado correctamente!");
+      } catch (error) {
+        Logger.log("Error en guardarPedido:", error);
+        return HtmlService.createHtmlOutput("Error: " + error.message);
+      }
+    }
+  </script>
+
+</body>
+</html>
