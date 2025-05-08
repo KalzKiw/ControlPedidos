@@ -18,53 +18,32 @@ function formatearFecha(fecha) {
 function guardarPedido(data) {
   const hoja = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET_NAME);
 
-  Logger.log("Datos recibidos:", data);
-  
-  const fechaEntrega = data.fechaEntrega || "";
-  const fechaRuta = data.fechaRuta || "";
+  const fechaPedido = new Date(data.fechaPedido);
+  const fechaEntrega = data.fechaEntrega ? new Date(data.fechaEntrega) : null;
 
-  const fechaEntregaObj = new Date(fechaEntrega);
-  const fechaRutaObj = new Date(fechaRuta);
-
-  Logger.log("Fecha Entrega:", fechaEntregaObj);
-  Logger.log("Fecha Ruta:", fechaRutaObj);
-
-  if (isNaN(fechaEntregaObj.getTime())) {
-    Logger.log("La fecha de entrega no es válida.");
-    return;
-  }
-
-  let estado = "Pendiente"; // Si no hay fecha de ruta, el estado es Pendiente.
-  let diferenciaDias = "";
-  let diferenciaHoras = "";
-
-  if (fechaRuta) {
-    const diferencia = fechaRutaObj - fechaEntregaObj; // Diferencia en milisegundos
-    diferenciaHoras = diferencia / (1000 * 60 * 60); // Diferencia en horas
-    diferenciaDias = Math.floor(diferencia / (1000 * 60 * 60 * 24)); // Diferencia en días sin decimales
-
-    if (diferenciaHoras >= 15 && diferenciaHoras <= 20) {
-      estado = "Entregado";
-    } else if (diferenciaHoras > 20) {
-      estado = "En Ruta";
-    }
+  // Calcular la diferencia de días si "Fecha Entrega" está presente
+  let diasDiferencia = "";
+  if (fechaEntrega) {
+    diasDiferencia = Math.ceil((fechaEntrega - fechaPedido) / (1000 * 60 * 60 * 24));
   }
 
   const incidenciaTexto = data.incidencia ? "Sí" : "No";
   const tipoIncidenciaTexto = data.incidencia && data.tipoIncidencia ? data.tipoIncidencia : "NO";
 
-  hoja.appendRow([
-    data.pedido || "",
-    formatearFecha(fechaEntregaObj),
-    fechaRuta ? formatearFecha(fechaRutaObj) : "", // Solo agrega la fecha de ruta si existe
-    diferenciaDias || "", // Diferencia en días sin decimales
-    estado, // Estado en "Pendiente", "En Ruta", o "Entregado"
-    incidenciaTexto,
-    tipoIncidenciaTexto // Si no hay incidencia, será "NO"
-  ]);
+  // Determinar el estado
+  const estado = fechaEntrega ? "Entregado" : "Pendiente";
 
-  Logger.log("Pedido guardado correctamente.");
-  return HtmlService.createHtmlOutput("¡Pedido guardado correctamente!").setSandboxMode(HtmlService.SandboxMode.IFRAME);
+  // Agregar los datos a la hoja
+  hoja.appendRow([
+    data.cliente || "", // Nueva columna para el cliente
+    data.pedido || "",
+    Utilities.formatDate(fechaPedido, Session.getScriptTimeZone(), "dd/MM/yyyy"),
+    fechaEntrega ? Utilities.formatDate(fechaEntrega, Session.getScriptTimeZone(), "dd/MM/yyyy") : "",
+    diasDiferencia,
+    estado,
+    incidenciaTexto,
+    tipoIncidenciaTexto
+  ]);
 }
 
 // Función para manejar el POST que recibe los datos y los guarda en la hoja de Google Sheets
@@ -72,4 +51,95 @@ function doPost(e) {
   const datos = e.parameter; // Obtiene los parámetros del formulario
   return guardarPedido(datos);
 }
+
+// Función para obtener estadísticas de pedidos
+function obtenerEstadisticas(filtro) {
+  const hoja = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET_NAME);
+  const datos = hoja.getDataRange().getValues();
+  const hoy = new Date();
+  let pendientes = 0, entregados = 0;
+  let totalIncidencias = 0, dcIncidencias = 0, montajeIncidencias = 0;
+
+  datos.forEach((fila, index) => {
+    if (index === 0) return; // Saltar encabezados
+    const estado = fila[4]; // Columna del estado
+    const incidencia = fila[5]; // Columna de incidencia (Sí/No)
+    const tipoIncidencia = fila[6]; // Columna del tipo de incidencia
+    const fechaEntrega = new Date(fila[1]);
+
+    if (filtro === 'semana') {
+      const diferenciaDias = (hoy - fechaEntrega) / (1000 * 60 * 60 * 24);
+      if (diferenciaDias > 7) return;
+    } else if (filtro === 'mes') {
+      if (hoy.getMonth() !== fechaEntrega.getMonth() || hoy.getFullYear() !== fechaEntrega.getFullYear()) return;
+    }
+
+    // Contar estados
+    if (estado === 'Pendiente') pendientes++;
+    else if (estado === 'Entregado') entregados++;
+
+    // Contar incidencias
+    if (incidencia === 'Sí') {
+      totalIncidencias++;
+      if (tipoIncidencia === 'DC') dcIncidencias++;
+      else if (tipoIncidencia === 'MONTAJE') montajeIncidencias++;
+    }
+  });
+
+  const total = pendientes + entregados;
+  return { pendientes, entregados, total, totalIncidencias, dcIncidencias, montajeIncidencias };
+}
+
+// Función para obtener resumen de estadísticas
+function obtenerResumen(filtro) {
+  const estadisticas = obtenerEstadisticas(filtro);
+  return estadisticas;
+}
+
+// Función para buscar un pedido por número de pedido
+function buscarPedido(numeroPedido) {
+  const hoja = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET_NAME);
+  const datos = hoja.getDataRange().getValues();
+
+  for (let i = 1; i < datos.length; i++) {
+    if (datos[i][1] === numeroPedido) { // Columna 2: Número de Pedido
+      return {
+        cliente: datos[i][0], // Nueva columna para el cliente
+        pedido: datos[i][1],
+        fechaPedido: datos[i][2],
+        fechaEntrega: datos[i][3],
+        incidencia: datos[i][5],
+        tipoIncidencia: datos[i][6]
+      };
+    }
+  }
+
+  return null; // No se encontró el pedido
+}
+
+// Función para actualizar un pedido existente
+function actualizarPedido(data) {
+  const hoja = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET_NAME);
+  const datos = hoja.getDataRange().getValues();
+
+  for (let i = 1; i < datos.length; i++) {
+    if (datos[i][1] === data.pedido) { // Columna 1: Número de Pedido
+      hoja.getRange(i + 1, 1, 1, datos[i].length).setValues([[
+        data.cliente || "",
+        data.pedido || "",
+        data.fechaPedido || "",
+        data.fechaEntrega || "",
+        data.diasDiferencia || "",
+        data.estado || "",
+        data.incidencia || "",
+        data.tipoIncidencia || ""
+      ]]);
+      return 'Pedido actualizado correctamente.';
+    }
+  }
+
+  throw new Error('No se encontró el pedido para actualizar.');
+}
+
+
 

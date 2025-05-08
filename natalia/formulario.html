@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
   <title>Formulario de Pedido</title>
   <style>
     /* Estilos globales */
@@ -61,23 +62,42 @@
     }
 
     h1 {
-      color: hsl(0, 9%, 23%);
+      font-family: 'Poppins', sans-serif; /* Fuente moderna */
       text-align: center;
       margin-bottom: 30px;
-      font-size: 36px;
-      font-weight: 700;
+      font-size: 48px; /* Ajustar el tamaño */
+      font-weight: 800; /* Hacerlo más grueso */
       text-transform: uppercase;
-      letter-spacing: 1.5px;
+      letter-spacing: 2px;
+      background: linear-gradient(135deg, #4ca8af, #2e7d7a); /* Mismo degradado que el botón */
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent; /* Hace que el texto tome el degradado */
+      animation: gradientMove 3s infinite; /* Animación del degradado */
+      white-space: normal; /* Permite que el texto se ajuste al ancho */
+      overflow-wrap: break-word; /* Ajusta el texto si es necesario */
+    }
+
+    /* Animación del degradado */
+    @keyframes gradientMove {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
     }
 
     /* Contenedor del formulario con efecto cristal */
     .form-container {
-      background: rgba(255, 255, 255, 0.1); /* Fondo translúcido */
-      backdrop-filter: blur(10px); /* Efecto blur */
-      -webkit-backdrop-filter: blur(10px); /* Efecto blur para Safari */
+      background: rgba(255, 255, 255, 0.2); /* Fondo translúcido */
+      backdrop-filter: blur(15px); /* Efecto blur */
+      -webkit-backdrop-filter: blur(15px); /* Efecto blur para Safari */
       border-radius: 20px;
       border: 1px solid rgba(255, 255, 255, 0.3); /* Borde translúcido */
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2); /* Sombra */
       padding: 40px;
       width: 100%;
       max-width: 500px;
@@ -89,14 +109,14 @@
       font-size: 16px;
       color: #333333; /* Texto gris oscuro */
       font-weight: 600;
-      margin-bottom: 10px;
+      margin-bottom: 0; /* Eliminar margen inferior */
       display: block;
     }
 
     /* Input y Select */
     input[type="text"], input[type="date"], select {
       padding: 14px;
-      margin-top: 10px;
+      margin-top: 5px; /* Reducir espacio entre etiqueta e input */
       width: 100%;
       border-radius: 10px;
       border: 1px solid rgba(0, 0, 0, 0.3); /* Borde gris translúcido */
@@ -146,25 +166,26 @@
       display: none;
       margin-top: 20px;
       padding: 15px;
-      border: 1px rgba(0, 0, 0, 0.5); /* Borde blanco translúcido */
+      border: 1px solid rgba(0, 0, 0, 0.2); /* Borde gris translúcido */
       border-radius: 10px;
-      background-color: rgba(47, 26, 26, 0.6); /* Fondo oscuro translúcido */
+      background-color: rgba(255, 255, 255, 0.3); /* Fondo translúcido armonioso */
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Sombra ligera */
     }
 
     .incidencia-container select {
-      background-color: rgba(255, 255, 255, 0.6); /* Fondo oscuro translúcido */
-      border: 1px solid rgba(255, 255, 255, 0.5); /* Borde blanco translúcido */
+      background-color: rgba(255, 255, 255, 0.8); /* Fondo claro translúcido */
+      border: 1px solid rgba(0, 0, 0, 0.2); /* Borde gris translúcido */
       font-size: 16px;
       padding: 12px;
       width: 100%;
       border-radius: 10px;
       transition: all 0.3s ease;
-      color: #332323; /* Texto blanco */
+      color: #333333; /* Texto gris oscuro */
     }
 
     .incidencia-container select:focus {
-      border-color: #ffffff; /* Borde blanco */
-      background-color: rgba(255, 255, 255, 0.2); /* Fondo más claro */
+      border-color: #666666; /* Borde gris más oscuro */
+      background-color: rgba(255, 255, 255, 0.9); /* Fondo más claro */
     }
 
     /* Estilo para el checkbox */
@@ -176,7 +197,7 @@
 
     /* Contenedor general del formulario */
     .form-container {
-      width: 100%;
+      width: 90%; /* Ajustar el ancho para pantallas pequeñas */
       max-width: 600px;
       margin: 0 auto;
       padding: 20px;
@@ -186,129 +207,503 @@
       border-radius: 30px;
       box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
     }
+
+    /* Media query para pantallas pequeñas */
+    @media (max-width: 768px) {
+      .form-container {
+        padding: 15px; /* Reducir el padding en pantallas pequeñas */
+      }
+
+      h1 {
+        font-size: 28px; /* Reducir el tamaño */
+      }
+    }
+
+    /* Contenedor principal */
+    .main-container {
+      display: flex;
+      flex-direction: column; /* Cambiar a columna para centrar el formulario */
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      width: 100%;
+    }
+
+    /* Footer */
+    .footer {
+      margin-top: 20px;
+      text-align: center;
+      font-family: 'VT323', monospace;
+      color: #999999;
+      font-size: 14px;
+    }
+
+    .estadisticas-container {
+      display: none;
+    }
+
+    /* Estilo del modal */
+    .modal {
+      display: none; /* Oculto por defecto */
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8); /* Fondo oscuro translúcido */
+      justify-content: center;
+      align-items: center;
+      z-index: 1000; /* Asegura que esté por encima de otros elementos */
+    }
+
+    .modal-content {
+      background-color: white;
+      padding: 30px; /* Aumentar el padding */
+      border-radius: 15px; /* Bordes más redondeados */
+      width: 90%; /* Ocupa el 90% del ancho de la pantalla */
+      max-width: 800px; /* Máximo ancho */
+      height: 80%; /* Ocupa el 80% de la altura de la pantalla */
+      text-align: center;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5); /* Sombra más pronunciada */
+      overflow-y: auto; /* Permite desplazarse si el contenido es demasiado grande */
+    }
+
+    .modal-content h2 {
+      margin-bottom: 20px;
+      font-size: 24px; /* Tamaño más grande para el título */
+    }
+
+    .modal-content button {
+      margin: 10px;
+      padding: 12px 24px;
+      font-size: 18px; /* Botones más grandes */
+      cursor: pointer;
+      border: none;
+      border-radius: 8px;
+      background-color: #999;
+      color: white;
+      transition: background-color 0.3s;
+    }
+
+    .modal-content button:hover {
+      background-color: #666;
+    }
+
+    .close-modal {
+      margin-top: 20px;
+      background-color: red;
+      color: white;
+      font-size: 16px;
+      padding: 10px 20px;
+      border-radius: 8px;
+    }
+
+    .stats-button {
+      margin-top: 20px;
+      padding: 12px 24px;
+      font-size: 16px;
+      font-weight: bold;
+      color: white;
+      background: linear-gradient(135deg, #4ca8af, #2e7d7a); /* Fondo degradado verde */
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.3);
+      width: 100%; /* Ocupa todo el ancho del formulario */
+    }
+
+    .stats-button:hover {
+      background: linear-gradient(135deg, #66bb6a, #388e3c); /* Fondo más claro al pasar el mouse */
+      transform: translateY(-3px);
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.4);
+    }
+
+    .stats-button:active {
+      transform: translateY(0);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .modal-content button.selected {
+      background-color: #4caf50; /* Verde más oscuro */
+      color: white;
+      font-weight: bold;
+    }
+
+    /* Estilo para el contenedor de estadísticas */
+    .estadisticas-box {
+      position: absolute; /* Posiciona el cuadro dentro del modal */
+      top: 20px; /* Ajusta la posición vertical */
+      right: 20px; /* Ajusta la posición horizontal */
+      background: rgba(255, 255, 255, 0.9); /* Fondo translúcido */
+      border-radius: 10px; /* Bordes redondeados */
+      padding: 15px 20px; /* Espaciado interno */
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Sombra */
+      font-family: 'Arial', sans-serif; /* Fuente */
+      font-size: 16px; /* Tamaño de fuente */
+      color: #333; /* Color del texto */
+      text-align: left; /* Alineación del texto */
+      width: 200px; /* Ancho fijo */
+    }
+
+    /* Estilo para los textos dentro del cuadro */
+    .estadisticas-box p {
+      margin: 10px 0; /* Espaciado entre líneas */
+      font-weight: bold; /* Texto en negrita */
+    }
+
+    .estadisticas-box span {
+      font-weight: normal; /* Valores en texto normal */
+      color: #555; /* Color más claro para los valores */
+    }
+
+    /* Estilo para el contenedor de incidencias */
+    .incidencias-box {
+      position: absolute; /* Posiciona el cuadro dentro del modal */
+      bottom: 20px; /* Ajusta la posición vertical */
+      left: 20px; /* Ajusta la posición horizontal */
+      background: rgba(255, 255, 255, 0.9); /* Fondo translúcido */
+      border-radius: 10px; /* Bordes redondeados */
+      padding: 15px 20px; /* Espaciado interno */
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Sombra */
+      font-family: 'Arial', sans-serif; /* Fuente */
+      font-size: 16px; /* Tamaño de fuente */
+      color: #333; /* Color del texto */
+      text-align: left; /* Alineación del texto */
+      width: 250px; /* Ancho fijo */
+    }
+
+    /* Estilo para los textos dentro del cuadro */
+    .incidencias-box p {
+      margin: 10px 0; /* Espaciado entre líneas */
+      font-weight: bold; /* Texto en negrita */
+    }
+
+    .incidencias-box span {
+      font-weight: normal; /* Valores en texto normal */
+      color: #555; /* Color más claro para los valores */
+    }
   </style>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
+  <div class="main-container">
+    <!-- Formulario centrado -->
+    <div class="form-container">
+      <h1>Formulario de Pedido</h1>
+      <form onsubmit="event.preventDefault(); enviarFormulario();">
+        <label for="cliente">Cliente:</label>
+        <input type="text" id="cliente" name="cliente" required>
 
-  <div class="form-container">
-    <h1>Formulario de Pedido</h1>
-    <form onsubmit="event.preventDefault(); enviarFormulario();">
-      <label for="pedido">Pedido:</label>
-      <input type="text" id="pedido" name="pedido" required>
+        <label for="pedido">Pedido:</label>
+        <input type="text" id="pedido" name="pedido" required>
 
-      <label for="fechaEntrega">Fecha de Entrega:</label>
-      <input type="date" id="fechaEntrega" name="fechaEntrega" required>
+        <label for="fechaPedido">Fecha del Pedido:</label>
+        <input type="date" id="fechaPedido" name="fechaPedido" required>
 
-      <label for="fechaRuta">Fecha de Ruta:</label>
-      <input type="date" id="fechaRuta" name="fechaRuta">
+        <label for="fechaEntrega">Fecha de Entrega:</label>
+        <input type="date" id="fechaEntrega" name="fechaEntrega">
 
-      <label for="incidencia">¿Incidencia?</label>
-      <input type="checkbox" id="incidencia" name="incidencia" onclick="toggleIncidencia()">
+        <label for="incidencia">¿Incidencia?</label>
+        <input type="checkbox" id="incidencia" name="incidencia" onclick="toggleIncidencia()">
 
-      <div class="incidencia-container" id="incidenciaContainer">
-        <label for="tipoIncidencia">Tipo de Incidencia:</label>
-        <select id="tipoIncidencia" name="tipoIncidencia">
-          <option value="DC">DC</option>
-          <option value="MONTAJE">MONTAJE</option>
-        </select>
+        <div class="incidencia-container" id="incidenciaContainer">
+          <label for="tipoIncidencia">Tipo de Incidencia:</label>
+          <select id="tipoIncidencia" name="tipoIncidencia">
+            <option value="DC">DC</option>
+            <option value="MONTAJE">MONTAJE</option>
+          </select>
+        </div>
+
+        <!-- Contenedor para mensajes -->
+        <div id="mensaje" style="margin-top: 20px; font-weight: bold;"></div>
+
+        <input type="submit" value="Enviar Pedido">
+      </form>
+
+      <!-- Botón para abrir el modal -->
+      <button class="stats-button" onclick="abrirModal()">Ver Estadísticas</button>
+      <button onclick="abrirExcel()" style="margin-top: 20px; padding: 12px 24px; font-size: 16px; font-weight: bold; color: white; background: linear-gradient(135deg, #4ca8af, #2e7d7a); border: none; border-radius: 30px; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 6px 14px rgba(0, 0, 0, 0.3);">
+        Abrir Excel
+      </button>
+      <div style="margin-top: 20px;">
+        <label for="buscarPedido">Buscar Pedido:</label>
+        <input type="text" id="buscarPedido" placeholder="Número de Pedido">
+        <button type="button" onclick="buscarPedido()">Buscar</button>
       </div>
-
-      <input type="submit" value="Enviar Pedido">
-    </form>
+    </div>
   </div>
+
+  <!-- Modal -->
+  <div id="modalEstadisticas" class="modal">
+    <div class="modal-content">
+      <h2>Resumen de Pedidos</h2>
+      <div>
+        <button onclick="cargarEstadisticas('semana')">Esta Semana</button>
+        <button onclick="cargarEstadisticas('mes')">Este Mes</button>
+        <button onclick="cargarEstadisticas('total')">Total</button>
+      </div>
+      <!-- Contenedor para el feedback -->
+      <p id="filtroSeleccionado" style="margin-top: 10px; font-weight: bold; color: #333;"></p>
+      <div id="estadisticas" class="estadisticas-box">
+        <p><strong>🕒 Pendientes:</strong> <span id="pendientes">0</span></p>
+        <p><strong>✅ Entregados:</strong> <span id="entregados">0</span></p>
+        <p><strong>📊 Total:</strong> <span id="total">0</span></p>
+      </div>
+      <div id="incidencias" class="incidencias-box">
+        <p><strong>🔴 Total Incidencias:</strong> <span id="totalIncidencias">0</span></p>
+        <p><strong>⚙️ DC:</strong> <span id="dcIncidencias">0</span></p>
+        <p><strong>🔧 MONTAJE:</strong> <span id="montajeIncidencias">0</span></p>
+      </div>
+      <canvas id="statsChart" width="400" height="200"></canvas>
+      <button class="close-modal" onclick="cerrarModal()">Cerrar</button>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    🐈Kalz
+  </footer>
 
   <script>
     // Función para mostrar u ocultar el campo de tipo de incidencia
     function toggleIncidencia() {
       const incidenciaContainer = document.getElementById('incidenciaContainer');
       const incidenciaCheckbox = document.getElementById('incidencia');
-      
-      if (incidenciaCheckbox.checked) {
-        incidenciaContainer.style.display = 'block';
-      } else {
-        incidenciaContainer.style.display = 'none';
-      }
+      incidenciaContainer.style.display = incidenciaCheckbox.checked ? 'block' : 'none';
     }
 
     // Función para enviar el formulario
     function enviarFormulario() {
       const pedido = document.getElementById('pedido').value;
-      const fechaEntrega = document.getElementById('fechaEntrega').value;
-      const fechaRuta = document.getElementById('fechaRuta').value;
+      const fechaPedido = document.getElementById('fechaPedido').value;
+      const fechaEntrega = document.getElementById('fechaEntrega').value; // Puede estar vacío
       const incidencia = document.getElementById('incidencia').checked;
       const tipoIncidencia = document.getElementById('tipoIncidencia').value;
 
+      // Validar que "Fecha Pedido" no esté vacía
+      if (!fechaPedido) {
+        mostrarMensaje('La fecha del pedido es obligatoria.', 'error');
+        return;
+      }
+
+      // Validar que "Fecha Entrega" no sea menor que "Fecha Pedido" si está presente
+      if (fechaEntrega && new Date(fechaEntrega) < new Date(fechaPedido)) {
+        mostrarMensaje('La fecha de entrega no puede ser menor que la fecha del pedido.', 'error');
+        return;
+      }
+
       const data = {
         pedido,
-        fechaEntrega,
-        fechaRuta,
+        fechaPedido,
+        fechaEntrega: fechaEntrega || null, // Si está vacío, enviar como null
         incidencia,
         tipoIncidencia
       };
 
-      google.script.run.withSuccessHandler(function(response) {
-        alert(response);
-        document.getElementById('pedido').value = '';
-        document.getElementById('fechaEntrega').value = '';
-        document.getElementById('fechaRuta').value = '';
-        document.getElementById('incidencia').checked = false;
-        document.getElementById('tipoIncidencia').value = '';
-        document.getElementById('incidenciaContainer').style.display = 'none'; // Ocultar el desplegable
-      }).guardarPedido(data);
+      google.script.run
+        .withSuccessHandler(function(response) {
+          mostrarMensaje('¡Pedido guardado correctamente!', 'success');
+          limpiarFormulario();
+        })
+        .withFailureHandler(function(error) {
+          mostrarMensaje('Error al guardar el pedido: ' + error.message, 'error');
+        })
+        .guardarPedido(data);
+    }
+
+    // Función para mostrar mensajes
+    function mostrarMensaje(mensaje, tipo) {
+      const mensajeDiv = document.getElementById('mensaje');
+      mensajeDiv.textContent = mensaje;
+      mensajeDiv.style.color = tipo === 'success' ? 'green' : 'red';
+    }
+
+    // Función para limpiar el formulario
+    function limpiarFormulario() {
+      document.getElementById('pedido').value = '';
+      document.getElementById('fechaPedido').value = '';
+      document.getElementById('fechaEntrega').value = '';
+      document.getElementById('incidencia').checked = false;
+      document.getElementById('tipoIncidencia').value = '';
+      document.getElementById('incidenciaContainer').style.display = 'none';
+    }
+
+    // Función para cargar estadísticas
+    function cargarEstadisticas(filtro) {
+      const filtroTexto = {
+        semana: 'Estadísticas de esta semana',
+        mes: 'Estadísticas de este mes',
+        total: 'Estadísticas totales'
+      };
+      document.getElementById('filtroSeleccionado').textContent = filtroTexto[filtro];
+
+      const botones = document.querySelectorAll('.modal-content button');
+      botones.forEach(boton => boton.classList.remove('selected'));
+      const botonSeleccionado = Array.from(botones).find(boton => boton.textContent.includes(filtroTexto[filtro].split(' ')[1]));
+      if (botonSeleccionado) botonSeleccionado.classList.add('selected');
+
+      google.script.run.withSuccessHandler(mostrarEstadisticas).obtenerResumen(filtro);
+    }
+
+    let chart; // Variable global para el gráfico
+
+    function mostrarEstadisticas(estadisticas) {
+      // Actualizar los valores en el modal
+      document.getElementById('pendientes').textContent = estadisticas.pendientes;
+      document.getElementById('entregados').textContent = estadisticas.entregados;
+      document.getElementById('total').textContent = estadisticas.total;
+
+      // Actualizar los valores de incidencias
+      document.getElementById('totalIncidencias').textContent = estadisticas.totalIncidencias;
+      document.getElementById('dcIncidencias').textContent = estadisticas.dcIncidencias;
+      document.getElementById('montajeIncidencias').textContent = estadisticas.montajeIncidencias;
+
+      // Configuración del gráfico
+      const data = {
+        labels: ['Pendientes', 'Entregados', 'DC', 'MONTAJE'],
+        datasets: [
+          {
+            label: 'Pendientes',
+            data: [estadisticas.pendientes, 0, 0, 0],
+            backgroundColor: 'rgba(255, 99, 132, 0.2)', // Rojo
+            borderColor: 'rgba(255, 99, 132, 1)',
+            borderWidth: 1
+          },
+          {
+            label: 'Entregados',
+            data: [0, estadisticas.entregados, 0, 0],
+            backgroundColor: 'rgba(75, 192, 192, 0.2)', // Verde
+            borderColor: 'rgba(75, 192, 192, 1)',
+            borderWidth: 1
+          },
+          {
+            label: 'DC',
+            data: [0, 0, estadisticas.dcIncidencias, 0],
+            backgroundColor: 'rgba(255, 206, 86, 0.2)', // Amarillo
+            borderColor: 'rgba(255, 206, 86, 1)',
+            borderWidth: 1
+          },
+          {
+            label: 'MONTAJE',
+            data: [0, 0, 0, estadisticas.montajeIncidencias],
+            backgroundColor: 'rgba(153, 102, 255, 0.2)', // Morado
+            borderColor: 'rgba(153, 102, 255, 1)',
+            borderWidth: 1
+          }
+        ]
+      };
+
+      const config = {
+        type: 'bar',
+        data: data,
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              position: 'top',
+            },
+            title: {
+              display: true,
+              
+            }
+          },
+          scales: {
+            x: {
+              stacked: false
+            },
+            y: {
+              beginAtZero: true
+            }
+          }
+        }
+      };
+
+      // Destruir el gráfico anterior si existe
+      if (chart) {
+        chart.destroy();
+      }
+
+      // Crear el nuevo gráfico
+      const ctx = document.getElementById('statsChart').getContext('2d');
+      chart = new Chart(ctx, config);
+    }
+
+    // Función para abrir el modal
+    function abrirModal() {
+      document.getElementById('modalEstadisticas').style.display = 'flex';
+    }
+
+    // Función para cerrar el modal
+    function cerrarModal() {
+      document.getElementById('modalEstadisticas').style.display = 'none';
     }
 
     function guardarPedido(data) {
-      try {
-        const hoja = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET_NAME);
+      const hoja = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET_NAME);
 
-        Logger.log("Datos recibidos:", data);
+      const fechaPedido = new Date(data.fechaPedido);
+      const fechaEntrega = data.fechaEntrega ? new Date(data.fechaEntrega) : null;
 
-        const fechaEntrega = data.fechaEntrega || "";
-        const fechaRuta = data.fechaRuta || "";
-
-        const fechaEntregaObj = new Date(fechaEntrega);
-        const fechaRutaObj = new Date(fechaRuta);
-
-        if (isNaN(fechaEntregaObj.getTime())) {
-          Logger.log("La fecha de entrega no es válida.");
-          return HtmlService.createHtmlOutput("Error: La fecha de entrega no es válida.");
-        }
-
-        let estado = "Pendiente";
-        let diferenciaDias = "";
-
-        if (fechaRuta) {
-          const diferencia = fechaRutaObj - fechaEntregaObj;
-          diferenciaDias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
-
-          if (diferencia / (1000 * 60 * 60) >= 15 && diferencia / (1000 * 60 * 60) <= 20) {
-            estado = "Entregado";
-          } else if (diferencia / (1000 * 60 * 60) > 20) {
-            estado = "En Ruta";
-          }
-        }
-
-        const incidenciaTexto = data.incidencia ? "Sí" : "No";
-        const tipoIncidenciaTexto = data.incidencia && data.tipoIncidencia ? data.tipoIncidencia : "NO";
-
-        hoja.appendRow([
-          data.pedido || "",
-          formatearFecha(fechaEntregaObj),
-          fechaRuta ? formatearFecha(fechaRutaObj) : "",
-          diferenciaDias || "",
-          estado,
-          incidenciaTexto,
-          tipoIncidenciaTexto
-        ]);
-
-        Logger.log("Pedido guardado correctamente.");
-        return HtmlService.createHtmlOutput("¡Pedido guardado correctamente!");
-      } catch (error) {
-        Logger.log("Error en guardarPedido:", error);
-        return HtmlService.createHtmlOutput("Error: " + error.message);
+      // Calcular la diferencia de días si "Fecha Entrega" está presente
+      let diasDiferencia = "";
+      if (fechaEntrega) {
+        diasDiferencia = Math.ceil((fechaEntrega - fechaPedido) / (1000 * 60 * 60 * 24));
       }
+
+      const incidenciaTexto = data.incidencia ? "Sí" : "No";
+      const tipoIncidenciaTexto = data.incidencia && data.tipoIncidencia ? data.tipoIncidencia : "NO";
+
+      // Determinar el estado
+      const estado = fechaEntrega ? "Entregado" : "Pendiente";
+
+      // Agregar los datos a la hoja
+      hoja.appendRow([
+        data.pedido || "",
+        Utilities.formatDate(fechaPedido, Session.getScriptTimeZone(), "dd/MM/yyyy"),
+        fechaEntrega ? Utilities.formatDate(fechaEntrega, Session.getScriptTimeZone(), "dd/MM/yyyy") : "",
+        diasDiferencia,
+        estado,
+        incidenciaTexto,
+        tipoIncidenciaTexto
+      ]);
+    }
+
+    function abrirExcel() {
+      window.open('https://docs.google.com/spreadsheets/d/1ustGmYclu6oPWREyjBuBpQUK1RsmWGvLF1T9jAy-j34/edit?pli=1&gid=0#gid=0', '_blank');
+    }
+
+    function buscarPedido() {
+      const numeroPedido = document.getElementById('buscarPedido').value;
+
+      if (!numeroPedido) {
+        mostrarMensaje('Por favor, ingresa un número de pedido para buscar.', 'error');
+        return;
+      }
+
+      google.script.run
+        .withSuccessHandler(mostrarPedido)
+        .withFailureHandler(function(error) {
+          mostrarMensaje('Error al buscar el pedido: ' + error.message, 'error');
+        })
+        .buscarPedido(numeroPedido);
+    }
+
+    function mostrarPedido(pedido) {
+      if (!pedido) {
+        mostrarMensaje('No se encontró el pedido.', 'error');
+        return;
+      }
+
+      // Rellenar el formulario con los datos del pedido
+      document.getElementById('cliente').value = pedido.cliente;
+      document.getElementById('pedido').value = pedido.pedido;
+      document.getElementById('fechaPedido').value = pedido.fechaPedido;
+      document.getElementById('fechaEntrega').value = pedido.fechaEntrega || '';
+      document.getElementById('incidencia').checked = pedido.incidencia === 'Sí';
+      document.getElementById('tipoIncidencia').value = pedido.tipoIncidencia || '';
     }
   </script>
-
 </body>
 </html>
+
